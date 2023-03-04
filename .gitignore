@@ -1,0 +1,8 @@
+# packagee
+node_modules
+
+# compile exec files
+dist
+
+# sensative variable
+*.env
