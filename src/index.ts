@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import path from 'path';
 import dotenv from "dotenv";
 
@@ -17,6 +17,9 @@ app.get('/', (req, res, next) => {
 })
 
 app.use(appRoute);
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({msg: err.message || err});
+})
 
 const {PORT} = process.env;
 app.listen(PORT, () => console.log(`http server is running at ${PORT}`))
