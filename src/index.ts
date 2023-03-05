@@ -4,15 +4,18 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import helmet from 'helmet';
 
-import appRoute from "./app/app.routing";
-
 const app = express();
 const envPath = path.resolve(__dirname, `./env/${process.env.NODE_ENV}.env`);
 dotenv.config({path: envPath});
 
+import appRoute from "./app/app.routing";
+import {db} from './database';
+
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
+
+db.connect();
 
 app.get('/', (req, res, next) => {
   res.send('Hello, world');
