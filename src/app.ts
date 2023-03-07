@@ -3,6 +3,7 @@ import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import {AppRoute} from './app.routing';
 
 export class App {
   private app = express();
@@ -31,6 +32,7 @@ export class App {
   }
 
   private registerRoute(): void {
-    this.app.get('/', (req, res, next) => res.send('Hello!'));
+    const route = new AppRoute();
+    this.app.use('/', route.router);
   }
 }
