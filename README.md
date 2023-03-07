@@ -84,3 +84,52 @@ class Child extends Base {
 
 const child = new Child();
 ```
+
+## Arrow function and this
+Before using typescript class, I just have few experience to deal with `this`. So the different between below two blocks of code really shock me.
+
+Because the code I import below had used this. So if I don't use arrow function to wrap the code. I might got error message with: "const obj = this.formatResponse(req.query, HttpStatus.OK)"
+
+```ts
+// import code
+import {Request, Response, NextFunction} from 'express';
+import {ControllerBase} from "../../../bases/controller.base";
+import {HttpStatus} from '../../../types/response.type';
+
+export class TodoController extends ControllerBase {
+  public async getTodos(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    console.log('==this==', this);
+    const obj = this.formatResponse(req.query, HttpStatus.OK)
+
+    res.status(obj.status).json(obj);
+  }
+}
+```
+
+```ts
+import {RouteBase} from '../../../bases/route.base';
+import {TodoController} from './todo.controller';
+
+export class TodoRoute extends RouteBase {
+  protected controller!: TodoController;
+
+
+  constructor() {
+    super();
+  }
+
+  protected initial(): void {
+    this.controller = new TodoController();
+    super.initial()
+  }
+
+  protected registerRoute(): void {
+    //  this.router.get('/', this.controller.getTodos); 
+    this.router.get('/', (req, res, next) => this.controller.getTodos(req, res, next));
+  }
+}
+```
