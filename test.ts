@@ -1,25 +1,10 @@
-abstract class Base {
-  constructor() {
-    this.setData();
-  }
-
-  protected abstract setData(): void;
+interface Lengthwise {
+  length: number;
 }
 
-class Child extends Base {
-  private prop = (() => {
-    console.log('==prop==')
-    return {key: 'value'};
-  })()
-
-  constructor() {
-    super()
-  }
-
-  protected setData(): void {
-    console.log('==setData==')
-    // console.log('==prop inner setData==', this.prop.key);
-  }
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
 }
 
-const child = new Child();
+loggingIdentity(1);

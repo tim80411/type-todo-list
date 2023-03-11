@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 import {AppRoute} from './app.routing';
 import {DefaultException} from './exceptions/default.exception';
-// import 
+import {Database} from './database';
 
 export class App {
   private app = express();
@@ -21,6 +21,11 @@ export class App {
 
   public boot(): void {
     this.app.listen(process.env.PORT, () => console.log(`API Server is running at port ${process.env.PORT}.`))
+  }
+
+  public launchDatabase(): void {
+    const database = new Database();
+    database.connect();
   }
 
   private setException() {

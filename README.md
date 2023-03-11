@@ -133,3 +133,15 @@ export class TodoRoute extends RouteBase {
   }
 }
 ```
+
+
+## Generic(泛型) for mongoose
+When we talk about mongoose model type, we can use generic to handle property of Document.
+There are two ways to describe what your documents look like
+1. Document interface definition
+2. Automatic type inference
+
+Using Automatic type inference should aware of three point
+1. You need to set strictNullChecks: true or strict: true in your tsconfig.json. Or, if you're setting flags at the command line, --strictNullChecks or --strict. There are known issues with automatic type inference with strict mode disabled.
+2. You need to define your schema in the new Schema() call. Don't assign your schema definition to a temporary variable. Doing something like const schemaDefinition = { name: String }; const schema = new Schema(schemaDefinition); will not work.
+3. Mongoose adds createdAt and updatedAt to your schema if you specify the timestamps option in your schema, except if you also specify methods, virtuals, or statics. There is a known issue with type inference with timestamps and methods/virtuals/statics options. If you use methods, virtuals, and statics, you're responsible for adding createdAt and updatedAt to your schema definition.

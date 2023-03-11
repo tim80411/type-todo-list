@@ -1,4 +1,10 @@
 import {App} from "./app";
 
 const app = new App();
-app.boot();
+
+const boot = () => {
+  app.boot();
+  app.launchDatabase()
+}
+
+boot()
