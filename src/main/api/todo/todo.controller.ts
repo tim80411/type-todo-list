@@ -1,3 +1,4 @@
+import {ResponseObject} from '../../../common/response/response.object';
 import {Request, Response, NextFunction} from 'express';
 import {ControllerBase} from "../../../bases/controller.base";
 import {HttpStatus} from '../../../types/response.type';
@@ -7,9 +8,9 @@ export class TodoController extends ControllerBase {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<void> {
-    const obj = super.formatResponse(req.query, HttpStatus.OK)
+  ): Promise<ResponseObject> {
+    if (req.query.throwError === 'true') throw new Error('errorQQ')
 
-    res.status(obj.status).json(obj);
+    return super.formatResponse(req.query, HttpStatus.OK)
   }
 }

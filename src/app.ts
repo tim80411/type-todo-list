@@ -1,9 +1,12 @@
-import express from 'express';
+import express, {ErrorRequestHandler} from 'express';
 import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+
 import {AppRoute} from './app.routing';
+import {DefaultException} from './exceptions/default.exception';
+// import 
 
 export class App {
   private app = express();
@@ -13,10 +16,15 @@ export class App {
     this.setHelmet();
     this.setCors();
     this.registerRoute();
+    this.setException();
   }
 
   public boot(): void {
     this.app.listen(process.env.PORT, () => console.log(`API Server is running at port ${process.env.PORT}.`))
+  }
+
+  private setException() {
+    this.app.use(DefaultException);
   }
 
   private setHelmet(): void {
