@@ -17,7 +17,14 @@ export class TodoRoute extends RouteBase {
   }
 
   protected registerRoute(): void {
-    this.router.get('/', this.responseHandler(this.controller.getTodos));
-    this.router.route('/').post(express.json(), this.responseHandler(this.controller.addTodo));
+    this.router.route('/')
+      .get(this.responseHandler(this.controller.getTodos))
+      .post(express.json(), this.responseHandler(this.controller.addTodo));
+
+    this.router.route('/:id/completed')
+      .patch(express.json(), this.responseHandler(this.controller.completedTodo));
+
+    this.router.route('/:id')
+      .delete(this.responseHandler(this.controller.removeTodo));
   }
 }
