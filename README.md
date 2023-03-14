@@ -145,3 +145,13 @@ Using Automatic type inference should aware of three point
 1. You need to set strictNullChecks: true or strict: true in your tsconfig.json. Or, if you're setting flags at the command line, --strictNullChecks or --strict. There are known issues with automatic type inference with strict mode disabled.
 2. You need to define your schema in the new Schema() call. Don't assign your schema definition to a temporary variable. Doing something like const schemaDefinition = { name: String }; const schema = new Schema(schemaDefinition); will not work.
 3. Mongoose adds createdAt and updatedAt to your schema if you specify the timestamps option in your schema, except if you also specify methods, virtuals, or statics. There is a known issue with type inference with timestamps and methods/virtuals/statics options. If you use methods, virtuals, and statics, you're responsible for adding createdAt and updatedAt to your schema definition.
+
+
+## fly.io deployment
+### fly secrets
+If you want to set sensitive variable, we should use `fly secrets set`.
+There is a shell command for whom using `dotenv` package to handle env variable.
+```sh
+# the path after the cat command should be your .env file path
+fly secrets set $(cat ./src/env/prod.env | xargs echo)                                
+```

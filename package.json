@@ -4,7 +4,7 @@
   "description": "todo list for practicing typescript",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && NODE_ENV=prod node ./dist/index.js",
+    "start": "NODE_ENV=prod node ./dist/index.js",
     "start:dev": "nodemon --exec NODE_ENV=dev ts-node ./src/index.ts",
     "build": "tsc",
     "test": "jest"

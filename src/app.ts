@@ -20,6 +20,7 @@ export class App {
   }
 
   public boot(): void {
+    console.log('Before listening from port');
     this.app.listen(process.env.PORT, () => console.log(`API Server is running at port ${process.env.PORT}.`))
   }
 
