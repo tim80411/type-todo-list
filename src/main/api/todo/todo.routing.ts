@@ -6,7 +6,6 @@ import {TodoController} from './todo.controller';
 export class TodoRoute extends RouteBase {
   protected controller!: TodoController;
 
-
   constructor() {
     super();
   }

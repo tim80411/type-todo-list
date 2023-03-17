@@ -147,6 +147,20 @@ Using Automatic type inference should aware of three point
 3. Mongoose adds createdAt and updatedAt to your schema if you specify the timestamps option in your schema, except if you also specify methods, virtuals, or statics. There is a known issue with type inference with timestamps and methods/virtuals/statics options. If you use methods, virtuals, and statics, you're responsible for adding createdAt and updatedAt to your schema definition.
 
 
+### Preferred
+Although Mongoose has automatic type inference, I still recommended using document interface definition.
+It can help you avoid some tricky error.
+
+> Error below
+![Error](https://i.imgur.com/Z2TpYTb.png)
+
+> Fix
+![圖 3](https://i.imgur.com/AuTcEB1.png)  
+
+
+
+
+
 ## fly.io deployment
 ### fly secrets
 If you want to set sensitive variable, we should use `fly secrets set`.
