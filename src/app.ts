@@ -1,8 +1,9 @@
-import express, {ErrorRequestHandler} from 'express';
+import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import passport from 'passport';
 
 import {AppRoute} from './app.routing';
 import {DefaultException} from './exceptions/default.exception';
@@ -15,6 +16,7 @@ export class App {
     this.setEnvironment();
     this.setHelmet();
     this.setCors();
+    this.setPassport();
     this.registerRoute();
     this.setException();
   }
@@ -48,5 +50,9 @@ export class App {
   private registerRoute(): void {
     const route = new AppRoute();
     this.app.use('/', route.router);
+  }
+
+  private setPassport(): void {
+    passport.initialize();
   }
 }

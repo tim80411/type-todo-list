@@ -10,7 +10,7 @@ export class LocalAuthRepository {
     return user;
   }
 
-  public async getUser(options: {username: string, email: string}): Promise<LocalAuthDocument | null> {
+  public async getUser(options: {username?: string, email?: string}): Promise<LocalAuthDocument | null> {
     const params = Object.keys(options)
       .filter(key => !!(options as any)[key])
       .map(key => {

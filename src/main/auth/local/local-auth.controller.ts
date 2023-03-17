@@ -1,4 +1,5 @@
-import {Request} from 'express';
+import {Request, Response, NextFunction} from 'express';
+import passport from 'passport';
 
 import {ControllerBase} from '../../../bases/controller.base';
 import {LocalAuthService} from './local-auth.service';
@@ -15,6 +16,17 @@ export class LocalAuthController extends ControllerBase {
     const user = await this.localAuthSvc.addUser(username, password, email);
     const token = this.localAuthSvc.generateJWT(user);
     return super.formatResponse(token, HttpStatus.CREATED);
+  }
+
+  public async signin(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<ResponseObject> {
+    console.log('====', this.localAuthSvc)
+    passport.use(this.localAuthSvc.Strategy);
+    const token = await this.localAuthSvc.authenticate(req, res, next);
+    return this.formatResponse(token, HttpStatus.OK);
   }
 
 }

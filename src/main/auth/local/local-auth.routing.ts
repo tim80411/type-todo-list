@@ -13,6 +13,9 @@ export class LocalAuthRouting extends RouteBase {
 
   protected registerRoute(): void {
     this.router.route('/signup')
-      .post(express.json(), this.responseHandler(this.controller.signup))
+      .post(express.json(), this.responseHandler(this.controller.signup));
+
+    this.router.route('/signin')
+      .post(express.json(), this.responseHandler(this.controller.signin));
   }
 }
