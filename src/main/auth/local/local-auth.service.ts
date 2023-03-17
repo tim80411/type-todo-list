@@ -1,3 +1,6 @@
+import JWT from 'jsonwebtoken';
+
+import {LocalAuthDocument} from '../../../models/local-auth.model';
 import {LocalAuthRepository} from '../../../repositories/local-auth.repository';
 import {HttpStatus} from '../../../types/response.type';
 
@@ -13,5 +16,15 @@ export class LocalAuthService {
     }
     const user = await this.localAuthRepo.addUser(username, password, email);
     return user;
+  }
+
+  public generateJWT(user: LocalAuthDocument): string {
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 7);
+    return JWT.sign({
+      _id: user._id,
+      username: user.username,
+      exp: expiry.getTime() / 1000
+    }, (process.env.JWT_SIGN as string));
   }
 }

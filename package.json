@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=prod node ./dist/index.js",
     "start:dev": "nodemon --exec NODE_ENV=dev ts-node ./src/index.ts",
+    "secret:prod": "fly secrets set $(cat ./src/env/prod.env | xargs echo)",
     "build": "tsc",
     "test": "jest"
   },
@@ -24,12 +25,14 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "mongoose": "^7.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.14.6",
     "nodemon": "^2.0.21",

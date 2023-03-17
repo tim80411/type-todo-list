@@ -13,7 +13,8 @@ export class LocalAuthController extends ControllerBase {
   public async signup(req: Request): Promise<ResponseObject> {
     const {username, password, email} = req.body;
     const user = await this.localAuthSvc.addUser(username, password, email);
-    return super.formatResponse(user, HttpStatus.CREATED);
+    const token = this.localAuthSvc.generateJWT(user);
+    return super.formatResponse(token, HttpStatus.CREATED);
   }
 
 }
