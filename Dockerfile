@@ -21,15 +21,14 @@ RUN npm install -g typescript
 RUN npm install && npm run build
 
 #############################
-FROM debian:bullseye
+FROM node:18.15-alpine
 
 LABEL fly_launch_runtime="nodejs"
 
-COPY --from=builder /root/.volta /root/.volta
 COPY --from=builder /app /app
+RUN npm i -g pm2
 
 WORKDIR /app
 ENV NODE_ENV production
-ENV PATH /root/.volta/bin:$PATH
 
 CMD [ "npm", "run", "start" ]

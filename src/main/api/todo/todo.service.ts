@@ -7,6 +7,7 @@ export class TodoService {
   private readonly TodoRepo = new TodoRepository();
 
   public async getTodos(payload: JWTPayloadDTO, limit: number = DefaultQuery.LIMIT, skip: number = DefaultQuery.SKIP): Promise<ResponseTodoDTO[]> {
+    console.log('==test==')
     const truthLimit = Math.min(Number(limit), DefaultQuery.MAX_LIMIT) || DefaultQuery.LIMIT;
     const truthSkip = Number(skip) || DefaultQuery.SKIP;
 
@@ -14,7 +15,6 @@ export class TodoService {
 
     const dtos = todos.map(todo => new ResponseTodoDTO(todo));
 
-    console.log('====', dtos)
     return dtos;
   }
 
