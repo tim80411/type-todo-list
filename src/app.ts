@@ -8,9 +8,11 @@ import passport from 'passport';
 import {AppRoute} from './app.routing';
 import {DefaultException} from './exceptions/default.exception';
 import {Database} from './database';
+import {JWTException} from './exceptions/jwt.exception';
 
 export class App {
   private app = express();
+  private route!: AppRoute;
 
   constructor() {
     this.setEnvironment();
@@ -32,6 +34,7 @@ export class App {
   }
 
   private setException() {
+    this.app.use(JWTException);
     this.app.use(DefaultException);
   }
 
@@ -48,8 +51,8 @@ export class App {
   }
 
   private registerRoute(): void {
-    const route = new AppRoute();
-    this.app.use('/', route.router);
+    this.route = new AppRoute();
+    this.app.use('/', this.route.router);
   }
 
   private setPassport(): void {

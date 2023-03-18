@@ -1,8 +1,7 @@
 import {App} from "./app";
 
-const app = new App();
-
 const boot = () => {
+  const app = new App();
   app.boot();
   app.launchDatabase()
 }

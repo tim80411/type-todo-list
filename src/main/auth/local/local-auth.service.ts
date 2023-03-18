@@ -30,11 +30,14 @@ export class LocalAuthService {
   public generateJWT(user: LocalAuthDocument): string {
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + 7);
-    return JWT.sign({
-      _id: user._id,
-      username: user.username,
-      exp: expiry.getTime() / 1000
-    }, (process.env.JWT_SIGN as string));
+    return JWT.sign(
+      {
+        _id: user._id,
+        username: user.username,
+        exp: expiry.getTime() / 1000
+      },
+      (process.env.JWT_SIGN as string),
+    );
   }
 
   public authenticate(...args: any[]): Promise<string> {
