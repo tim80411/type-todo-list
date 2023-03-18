@@ -2,7 +2,7 @@ import {HttpStatus} from "../types/response.type";
 import {ResponseObject} from "../common/response/response.object";
 
 export abstract class ControllerBase {
-  public formatResponse(data: any, status = HttpStatus.INTERNAL_ERROR): ResponseObject {
+  public formatResponse(data: any, status = HttpStatus.INTERNAL_ERROR): ResponseObject<any> {
     const options: any = {status};
 
     status >= 400

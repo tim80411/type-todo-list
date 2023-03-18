@@ -5,6 +5,7 @@ import {ControllerBase} from "../../../bases/controller.base";
 import {HttpStatus} from '../../../types/response.type';
 import {TodoService} from './todo.service';
 import {JWTPayloadDTO} from '../../../dtos/jwt-payload.dto';
+import {TodoDocument} from '../../../models/todo.model';
 
 
 export class TodoController extends ControllerBase {
@@ -12,7 +13,7 @@ export class TodoController extends ControllerBase {
 
   public async getTodos(
     req: Request,
-  ): Promise<ResponseObject> {
+  ): Promise<ResponseObject<TodoDocument>> {
     if (req.query.throwError === 'true') throw new Error('errorQQ');
 
     const {limit, skip} = req.query;
@@ -24,7 +25,7 @@ export class TodoController extends ControllerBase {
 
   public async addTodo(
     req: Request,
-  ): Promise<ResponseObject> {
+  ): Promise<ResponseObject<TodoDocument>> {
     const {content} = req.body;
     const payload = new JWTPayloadDTO(req.payload);
     const dto = await this.TodoSvc.addTodo(payload, content);
@@ -32,7 +33,7 @@ export class TodoController extends ControllerBase {
     return super.formatResponse(dto, HttpStatus.CREATED);
   }
 
-  public async completedTodo(req: Request): Promise<ResponseObject> {
+  public async completedTodo(req: Request): Promise<ResponseObject<TodoDocument>> {
     const {id} = req.params;
     const {completed} = req.body;
 
@@ -47,7 +48,7 @@ export class TodoController extends ControllerBase {
     return super.formatResponse(dto, HttpStatus.OK);
   }
 
-  public async removeTodo(req: Request): Promise<ResponseObject> {
+  public async removeTodo(req: Request): Promise<ResponseObject<TodoDocument>> {
     const {id} = req.params;
 
     const payload = new JWTPayloadDTO(req.payload);
