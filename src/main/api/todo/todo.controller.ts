@@ -1,13 +1,10 @@
 import {Request} from 'express';
-import {QueryOptions} from 'mongoose';
 
 import {ResponseObject} from '../../../common/response/response.object';
 import {ControllerBase} from "../../../bases/controller.base";
 import {HttpStatus} from '../../../types/response.type';
-import {TodoModel} from '../../../models/todo.model';
-import {TodoDTO} from '../../../dtos/todo.dto';
-import {DefaultQuery} from '../../../types/request.type';
 import {TodoService} from './todo.service';
+import {JWTPayloadDTO} from '../../../dtos/jwt-payload.dto';
 
 
 export class TodoController extends ControllerBase {
@@ -19,7 +16,8 @@ export class TodoController extends ControllerBase {
     if (req.query.throwError === 'true') throw new Error('errorQQ');
 
     const {limit, skip} = req.query;
-    const dtos = this.TodoSvc.getTodos(Number(limit), Number(skip));
+    const payload = new JWTPayloadDTO(req.payload);
+    const dtos = await this.TodoSvc.getTodos(payload, Number(limit), Number(skip));
 
     return super.formatResponse(dtos, HttpStatus.OK)
   }
@@ -28,7 +26,8 @@ export class TodoController extends ControllerBase {
     req: Request,
   ): Promise<ResponseObject> {
     const {content} = req.body;
-    const dto = await this.TodoSvc.addTodo(content);
+    const payload = new JWTPayloadDTO(req.payload);
+    const dto = await this.TodoSvc.addTodo(payload, content);
 
     return super.formatResponse(dto, HttpStatus.CREATED);
   }
@@ -37,7 +36,8 @@ export class TodoController extends ControllerBase {
     const {id} = req.params;
     const {completed} = req.body;
 
-    const dto = await this.TodoSvc.completedTodo(id, completed);
+    const payload = new JWTPayloadDTO(req.payload);
+    const dto = await this.TodoSvc.completedTodo(payload, id, completed);
 
 
     if (!dto) {
@@ -49,7 +49,9 @@ export class TodoController extends ControllerBase {
 
   public async removeTodo(req: Request): Promise<ResponseObject> {
     const {id} = req.params;
-    const dto = await this.TodoSvc.removeTodo(id);
+
+    const payload = new JWTPayloadDTO(req.payload);
+    const dto = await this.TodoSvc.removeTodo(payload, id);
     if (!dto) {
       return super.formatResponse('Not found.', HttpStatus.NOT_FOUND);
     }

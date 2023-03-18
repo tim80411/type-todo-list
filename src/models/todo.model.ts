@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import {model, Schema, Types} from 'mongoose';
 import {CoreDocument} from '../types/model.type';
 
 const TodoSchema = new Schema({
@@ -10,6 +10,11 @@ const TodoSchema = new Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  owner: {
+    type: Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
 }, {
   timestamps: true,
@@ -18,6 +23,7 @@ const TodoSchema = new Schema({
 export interface TodoDocument extends CoreDocument {
   content: string,
   completed: boolean,
+  owner: string,
 }
 
-export const TodoModel = model('Todo', TodoSchema);
+export const TodoModel = model<TodoDocument>('Todo', TodoSchema);

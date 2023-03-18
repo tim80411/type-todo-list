@@ -2,33 +2,33 @@ import {QueryOptions} from "mongoose";
 import {TodoModel, TodoDocument} from "../models/todo.model";
 
 export class TodoRepository {
-  public async addTodo(content: string): Promise<TodoDocument> {
-    const todo = await TodoModel.create({content});
+  public async addTodo(userId: string, content: string): Promise<TodoDocument> {
+    const todo = await TodoModel.create({content, owner: userId});
 
     return todo;
   }
 
-  public async getTodo(id: string): Promise<TodoDocument | null> {
-    const todo = await TodoModel.findById(id);
+  public async getTodo(userId: string, id: string): Promise<TodoDocument | null> {
+    const todo = await TodoModel.findOne({_id: id, owner: userId}).exec();
     return todo;
   }
 
-  public async getTodos(limit: number, skip: number): Promise<TodoDocument[]> {
-    const todos = await TodoModel.find().skip(skip).limit(limit);
+  public async getTodos(userId: string, limit: number, skip: number): Promise<TodoDocument[]> {
+    const todos = await TodoModel.find({owner: userId}).skip(skip).limit(limit).exec();
     return todos;
   }
 
-  public async completedTodo(id: string, completed: boolean) {
+  public async completedTodo(userId: string, id: string, completed: boolean) {
     const options: QueryOptions = {
       new: true,
       runValidators: true
     };
-    const todo = await TodoModel.findByIdAndUpdate(id, {completed}, options);
+    const todo = await TodoModel.findOneAndUpdate({_id: id, owner: userId}, {completed}, options);
     return todo;
   }
 
-  public async removeTodo(id: string) {
-    const todo = await TodoModel.findByIdAndRemove(id);
+  public async removeTodo(userId: string, id: string) {
+    const todo = await TodoModel.findOneAndRemove({_id: id, owner: userId});
     return todo;
   }
 }

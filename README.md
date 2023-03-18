@@ -160,6 +160,15 @@ It can help you avoid some tricky errors.
 ## Force type
 the as keyword is used for type assertion or type casting in TypeScript. When you use 'as' to perform type assertion, you are telling the TypeScript compiler to treat the value as the specified type
 
+## ts file import rule
+Although we declare the extends module in `./src/types/express/index.d.ts`, we still got the error `Property 'payload' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'`.
+
+**Why?**
+
+Because the argument `include` in tsconfig.json only compiles the file been imported. If we want to force the compiler to compile the file only for declaration, we should use `files` argument.
+
+![圖 4](https://i.imgur.com/CeRaz0F.png)  
+
 
 ## fly.io deployment
 ### fly secrets
