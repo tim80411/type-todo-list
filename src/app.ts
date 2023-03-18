@@ -6,9 +6,10 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 
 import {AppRoute} from './app.routing';
-import {DefaultException} from './exceptions/default.exception';
 import {Database} from './database';
+import {DefaultException} from './exceptions/default.exception';
 import {JWTException} from './exceptions/jwt.exception';
+import {ResponseErrorException} from './exceptions/response-error.exception';
 
 export class App {
   private app = express();
@@ -35,6 +36,7 @@ export class App {
 
   private setException() {
     this.app.use(JWTException);
+    this.app.use(ResponseErrorException);
     this.app.use(DefaultException);
   }
 
